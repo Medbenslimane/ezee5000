@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>برنامج ezee 5000 | الحل الأمثل لتسيير المنحة المدرسية الخاصة</title>
+    <!-- جلب خط Cairo العصري من Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <style>
+	
+	#backToTopBtn {
+    position: fixed;
+    bottom: 25px;
+    left: 25px;              /* أو right: 25px حسب ما تفضّل */
+    z-index: 99;
+    display: none;           /* مخفي في البداية */
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    border: none;
+    outline: none;
+    background: #00C897;     /* نفس اللون الثانوي في موقعك */
+    color: #fff;
+    font-size: 20px;
+    cursor: pointer;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+    transition: background 0.3s, transform 0.3s, opacity 0.3s;
+    opacity: 0.9;
+}
+
+#backToTopBtn:hover {
+    background: #00b386;
+    transform: translateY(-3px);
+    opacity: 1;
+}
+
+	
+        /* --- متغيرات الألوان والأساسيات --- */
+        :root {
+            --primary-color: #2E5BFF;
+            --secondary-color: #00C897;
+            --dark-text: #1A1A2E;
+            --light-text: #6e6e80;
+            --bg-light: #F8F9FD;
+            --gradient-bg: linear-gradient(135deg, #2E5BFF 0%, #5f46e6 100%);
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #ffffff;
+            color: var(--dark-text);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3 { font-weight: 700; margin-top: 0; }
+        p { color: var(--light-text); }
+        a { text-decoration: none; }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: auto;
+            padding: 0 20px;
+        }
+
+        /* --- شريط التنقل (Navbar) --- */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 25px 0;
+            position: absolute;
+            width: 90%;
+            max-width: 1200px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+        }
+
+        .logo {
+            font-size: 1.8em;
+            font-weight: 800;
+            color: #fff;
+        }
+        .nav-links a {
+            color: rgba(255,255,255,0.9); font-weight: 600; margin-left: 20px; transition: color 0.3s;
+        }
+        .nav-links a:hover { color: #fff; }
+
+        /* ======== تحديثات القسم الرئيسي (Hero Section) ======== */
+        .hero {
+            background: var(--gradient-bg);
+            color: #fff;
+            /* زيادة الحشوة العلوية والسفلية لاستيعاب الصورة */
+            padding: 180px 0 100px; 
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* حاوية مرنة لتقسيم المحتوى إلى نص وصورة */
+        .hero-content-wrapper {
+            display: flex;
+            align-items: center; /* محاذاة عمودية في الوسط */
+            justify-content: space-between; /* مسافة بين العنصرين */
+            gap: 50px; /* فجوة بين النص والصورة */
+        }
+
+        /* تنسيق عمود النص */
+        .hero-text-col {
+            flex: 1; /* يأخذ مساحة متساوية */
+            max-width: 600px;
+        }
+
+        .hero h1 {
+            font-size: 3.2em;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .hero .tagline {
+            font-size: 1.25em;
+            margin-bottom: 40px;
+            color: rgba(255,255,255,0.9);
+        }
+
+        /* تنسيق عمود الصورة */
+        .hero-image-col {
+            flex: 0.5;
+            display: flex;
+            justify-content: center; /* توسيط الصورة داخل عمودها */
+
+        }
+        
+        .hero-image-col img {
+            width: 100%;
+            max-width: 650px; /* أقصى عرض للصورة حتى لا تصبح ضخمة جداً */
+            height: auto;
+            /* إضافة تأثير ظل خفيف */
+            filter: drop-shadow(0 20px 30px rgba(0,0,0,0.2));
+            /* إضافة حركة طفو بسيطة */
+            animation: floatImage 6s ease-in-out infinite;
+			
+
+        }
+		.hero svg {
+    pointer-events: none;
+}
+
+
+        /* تعريف حركة الطفو */
+        @keyframes floatImage {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+
+        /* الأزرار */
+        .btn {
+            display: inline-block;
+            padding: 15px 40px;
+            border-radius: 50px;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .btn-primary {
+            background-color: var(--secondary-color);
+            color: #fff;
+        }
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(0, 200, 151, 0.4);
+            background-color: #00b386;
+        }
+        .btn-outline {
+             background-color: transparent; border: 2px solid rgba(255,255,255,0.3); color: #fff; margin-right: 15px;
+        }
+        .btn-outline:hover { border-color: #fff; background: rgba(255,255,255,0.1); }
+
+        /* --- باقي الأقسام (لم تتغير كثيراً) --- */
+        section { padding: 100px 0; }
+        .section-header { text-align: center; margin-bottom: 70px; }
+        .section-header h2 { font-size: 2.5em; color: var(--dark-text); margin-bottom: 15px; }
+        .separator { width: 70px; height: 4px; background: var(--primary-color); margin: auto; border-radius: 2px; }
+
+        /* Features Grid */
+        .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 40px; }
+        .feature-card {
+            background: #fff; padding: 40px; border-radius: 25px; text-align: center;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.05); transition: transform 0.3s ease; border: 1px solid rgba(0,0,0,0.04);
+        }
+        .feature-card:hover { transform: translateY(-10px); }
+        .feature-icon {
+            width: 80px; height: 80px; background: var(--bg-light); border-radius: 50%;
+            display: flex; align-items: center; justify-content: center; margin: 0 auto 30px; color: var(--primary-color);
+        }
+        .feature-icon svg { width: 40px; height: 40px; }
+
+        /* Footer CTA */
+        .footer-cta { background: var(--dark-text); color: #fff; text-align: center; padding: 1px 0; }
+        .footer-cta h2 { color: #fff; font-size: 2.5em; }
+        footer { background: #0b0b14; color: rgba(255,255,255,0.5); text-align: center; padding: 30px; font-size: 0.9em; }
+
+        /* ======== التجاوب مع الموبايل والتابلت ======== */
+        @media (max-width: 991px) {
+            .navbar { padding: 20px 0; }
+            /* تغيير اتجاه الـ Flex ليصبح عمودياً */
+            .hero-content-wrapper {
+                flex-direction: column;
+                text-align: center;
+                gap: 60px;
+            }
+            .hero h1 { font-size: 2.5em; }
+            .hero .tagline { margin-left: auto; margin-right: auto; }
+            /* تصغير الصورة قليلاً على الموبايل */
+            .hero-image-col img { max-width: 80%; }
+            .btn { width: 100%; text-align: center; margin-bottom: 10px; margin-right: 0; }
+             .nav-links { display: none; /* إخفاء الروابط مؤقتاً على الموبايل للتبسيط */}
+        }
+    </style>
+</head>
+<!-- زر الرجوع لأعلى الصفحة -->
+<button id="backToTopBtn" title="العودة لأعلى">
+    <i class="fas fa-arrow-up"></i>
+</button>
+
+
+<script>
+  // الحصول على الزر
+  const backToTopBtn = document.getElementById('backToTopBtn');
+
+  // إظهار/إخفاء الزر عند التمرير
+  window.addEventListener('scroll', function () {
+    if (window.scrollY > 200) {      // بعد 200px من التمرير يظهر الزر
+      backToTopBtn.style.display = 'block';
+    } else {
+      backToTopBtn.style.display = 'none';
+    }
+  });
+
+  // عند الضغط: صعود ناعم لأعلى الصفحة
+  backToTopBtn.addEventListener('click', function () {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  });
+</script>
+
+
+
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="container" style="display: flex; justify-content: space-between; align-items: center;">
+            <div class="logo">EZEE 5000</div>
+            <div class="nav-links">
+                <a href="#features">المميزات</a>
+				<!-- ======== الرابط الجديد: دليل المستخدم ======== -->
+            <!-- target="_blank" يفتح الملف في تبويب جديد -->
+            <!-- هام: تأكد أن اسم ملفك هو user-guide.pdf -->
+            <a href="user-guide.pdf" target="_blank" rel="noopener noreferrer">
+                <i class="far fa-file-pdf" style="margin-left: 5px;"></i> <!-- أيقونة PDF صغيرة (اختياري) -->
+                دليل المستخدم
+            </a>
+            <!-- ============================================= -->
+                <!-- رابط لصفحة التفعيل التي أنشأناها سابقاً -->
+                <a href="activation.html" style="background: rgba(255,255,255,0.2); padding: 8px 20px; border-radius: 20px;">تفعيل البرنامج</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ======== القسم الرئيسي المحدث (Hero with Image) ======== -->
+    <header class="hero">
+        <div class="container">
+            <div class="hero-content-wrapper">
+                
+                <!-- العمود الأول: النص -->
+                <div class="hero-text-col">
+                    <h1>احترافية مطلقة في تسيير المنحة المدرسية الخاصة</h1>
+                    <p class="tagline">برنامج EZEE 5000 هو الحل البرمجي الآمن والدقيق المخصص للمؤسسات التعليمية لإدارة منحة التلاميذ المعوزين بكل كفاءة وسهولة.</p>
+                    <div style="margin-bottom: 20px;">
+                        <!-- روابط التحميل -->
+						<a href="EZEE5000.rar" 
+						class="btn btn-primary" 
+						download="EZEE5000.rar"
+						onclick="trackDownload()">
+						<i class="fas fa-download" style="margin-left: 8px;"></i>
+						تحميل البرنامج
+						</a>
+
+                        <a href="activation.html" class="btn btn-outline">تفعيل البرنامج</a>
+                    </div>
+                    <p style="font-size: 0.9em; color: rgba(255,255,255,0.7); display: flex; align-items: center;">
+                        <svg xmlns="http://www.w3.org/2000/svg" style="width: 20px; margin-left: 8px;" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                        متوافق تماماً مع أنظمة Windows 10/11
+                    </p>
+                </div>
+
+                <!-- العمود الثاني: الصورة -->
+                <div class="hero-image-col">
+                    <!-- ========================================================================== -->
+                    <!-- هام: ضع ملف الصورة في نفس المجلد وسمّه product-box.png أو عدل الاسم هنا -->
+                    <!-- ========================================================================== -->
+                    <img src="001.png" alt="علبة وقرص برنامج ezee 5000 لتسيير المنح">
+                </div>
+
+            </div>
+        </div>
+        <!-- خلفية زخرفية بسيطة (اختياري) -->
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320" style="position: absolute; bottom: 0; left: 0; width: 100%; z-index: 0; opacity: 0.1;"><path fill="#ffffff" fill-opacity="1" d="M0,224L48,213.3C96,203,192,181,288,181.3C384,181,480,203,576,224C672,245,768,267,864,250.7C960,235,1056,181,1152,165.3C1248,149,1344,171,1392,181.3L1440,192V320H1392C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320H0Z"></path></svg>
+    </header>
+
+    <!-- ======== قسم الميزات (Cards) ======== -->
+    <section id="features" style="background: var(--bg-light);">
+        <div class="container">
+            <div class="section-header">
+                <h2>لماذا تختار EZEE 5000؟</h2>
+                <div class="separator"></div>
+                <p style="margin-top: 20px; max-width: 700px; margin-left: auto; margin-right: auto;">تم تصميمه خصيصاً لتلبية احتياجات الإدارة المدرسية الجزائرية بدقة متناهية، مع مراعاة السهولة والسرعة.</p>
+            </div>
+            
+            <div class="features-grid">
+                <!-- ميزة 1 -->
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                    </div>
+                    <h3>دقة في البيانات</h3>
+                    <p>تسجيل ومتابعة دقيقة لبيانات التلاميذ لضمان وصول الدعم لمستحقيه دون أخطاء.</p>
+                </div>
+                <!-- ميزة 2 -->
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+                    </div>
+                    <h3>سرعة وأداء عالي</h3>
+                    <p>مبرمج بتقنية دلفي المتطورة ليمنحك خفة وسرعة فائقة في معالجة القوائم الكبيرة.</p>
+                </div>
+                <!-- ميزة 3 -->
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+                    </div>
+                    <h3>تقارير جاهزة للطباعة</h3>
+                    <p>استخراج قوائم اسمية وتقارير مالية مفصلة وجاهزة للطباعة بضغطة زر واحدة.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ======== قسم الدعوة للعمل ======== -->
+    <section class="footer-cta" id="download-section">
+        <div class="container">
+             <!--<h2>هل أنت جاهز لتسهيل عملك؟</h2>
+            <p style="margin-bottom: 40px; opacity: 0.8;">انضم للمؤسسات التي تثق في EZEE 5000 لإدارة المنح المدرسية.</p>-->
+            
+            <!-- هنا تضع رابط التحميل الحقيقي -->
+             <!--<a href="#" class="btn btn-primary" style="padding: 20px 50px; font-size: 1.2em;">تحميل البرنامج الآن</a>-->
+            
+            <div style="margin-top: 60px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 40px;">
+                <p>تحتاج مساعدة أو لديك استفسار؟ تواصل معنا مباشرة</p>
+                <h3 style="color: var(--secondary-color); direction: ltr;">simply.awes@gmail.com</h3>
+            </div>
+        </div>
+    </section>
+
+    <!-- ======== الفوتر ======== -->
+    <!-- استبدل الفوتر القديم بهذا الكود في كل الصفحات -->
+<!-- ======================================================= -->
+<!-- ===== استبدل الفوتر القديم بهذا الكود في كل الصفحات ===== -->
+<!-- ======================================================= -->
+<footer>
+    <!-- إضافة بعض تنسيقات CSS المضمنة للفوتر والأيقونات -->
+    <style>
+        footer { background: #0b0b14; color: rgba(255,255,255,0.5); text-align: center; padding: 40px 20px; font-size: 0.9em; }
+        
+        /* ======== جديد: قسم أيقونات التواصل الاجتماعي ======== */
+        .footer-socials {
+            margin-bottom: 30px; /* مسافة بين الأيقونات والروابط النصية */
+            display: flex;
+            justify-content: center;
+            gap: 15px; /* مسافة بين الأيقونات */
+        }
+        .footer-socials a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 45px;          /* عرض الدائرة */
+            height: 45px;         /* ارتفاع الدائرة */
+            border-radius: 50%;   /* لجعلها دائرية */
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #fff;           /* لون الأيقونة */
+            font-size: 1.2rem;    /* حجم الأيقونة */
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        /* تأثير عند مرور الماوس */
+        .footer-socials a:hover {
+            background-color: #00C897; /* استخدام اللون الثانوي للموقع */
+            transform: translateY(-3px); /* تأثير رفع خفيف */
+        }
+
+        /* روابط الصفحات النصية (كما كانت) */
+        .footer-links { margin-bottom: 25px; display: flex; justify-content: center; flex-wrap: wrap; gap: 25px; }
+        .footer-links a { color: rgba(255,255,255,0.8); text-decoration: none; font-weight: 600; transition: color 0.3s; }
+        .footer-links a:hover { color: #00C897; }
+        .copyright { margin: 0; opacity: 0.7; }
+    </style>
+
+    <div class="container">
+
+        <!-- ======== جديد: قسم الأيقونات ======== -->
+        <div class="footer-socials">
+            <!-- أيقونة فيسبوك -->
+            <!-- هام: استبدل # برابط صفحتك على فيسبوك -->
+            <a href="#" target="_blank" title="فيسبوك"><i class="fab fa-facebook-f"></i></a>
+
+            <!-- أيقونة يوتيوب (مفيدة لوضع شروحات للبرنامج) -->
+            <!-- هام: استبدل # برابط قناتك على يوتيوب -->
+            <a href="#" target="_blank" title="يوتيوب"><i class="fab fa-youtube"></i></a>
+
+            <!-- أيقونة البريد الإلكتروني -->
+            <a href="mailto:support@ezee5000.com" title="تواصل عبر البريد"><i class="fas fa-envelope"></i></a>
+            
+            <!-- يمكنك إضافة المزيد من الأيقونات مثل واتساب (fa-whatsapp) أو تليجرام (fa-telegram) -->
+        </div>
+
+        <!-- روابط الصفحات الجديدة -->
+        <div class="footer-links">
+            <a href="about.html">من نحن</a>
+            <a href="privacy.html">سياسة الخصوصية</a>
+            <a href="terms.html">شروط الاستخدام</a>
+            <a href="activation.html">تفعيل البرنامج</a>
+        </div>
+
+        <!-- حقوق النشر -->
+        <p class="copyright">جميع الحقوق محفوظة &copy; 2025 BENSLIMANE Mohammed - EZEE 5000</p>
+    </div>
+	
+	
+	
+<!-- ✅ سكربت تتبع التحميلات - يوضع قبل إغلاق الجسم -->
+<script>
+function trackDownload() {
+    // إرسال طلب غير متزامن لتسجيل التحميل
+    if (navigator.sendBeacon) {
+        // طريقة أفضل لا تمنع التحميل
+        navigator.sendBeacon('log-download.php');
+    } else {
+        fetch('log-download.php', { method: 'POST', keepalive: true })
+            .catch(() => {}); // نتجاهل الأخطاء لضمان استمرار التحميل
+    }
+}
+</script>	
+	
+	
+	
+</footer>
+
+
+
+</body>
+</html>

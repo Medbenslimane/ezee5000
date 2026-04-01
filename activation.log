@@ -1,0 +1,15 @@
+[2026-01-02 13:05:19] [REQUEST] IP=41.101.193.10 | institute=متوسطة مسرغين | email=benslimanemohammed16@gmail.com | HDD=S2DFJ9CZ902510 | طلب تفعيل جديد
+[2026-01-02 13:05:19] [WARNING] IP=41.101.193.10 | email=benslimanemohammed16@gmail.com | HDD=S2DFJ9CZ902510 | طلب مكرر
+[2026-01-02 13:05:20] [SUCCESS] IP=41.101.193.10 | email=benslimanemohammed16@gmail.com | HDD=S2DFJ9CZ902510 | تم إرسال الطلب بنجاح
+[2026-02-20 13:51:49] [REQUEST] IP=41.101.167.21 | institute=متوسطة تاست | email=benslimanemohammed16@gmail.com | HDD=NAYE16A21A02963 | طلب تفعيل جديد
+[2026-02-20 13:51:49] [WARNING] IP=41.101.167.21 | email=benslimanemohammed16@gmail.com | HDD=NAYE16A21A02963 | طلب مكرر
+[2026-02-20 13:51:52] [SUCCESS] IP=41.101.167.21 | email=benslimanemohammed16@gmail.com | HDD=NAYE16A21A02963 | تم إرسال الطلب بنجاح
+[2026-02-20 13:51:56] [SUCCESS] IP=41.101.167.21 | email=benslimanemohammed16@gmail.com | تم إرسال نسخة تلقائية للمستخدم
+[2026-02-22 04:38:40] [REQUEST] IP=129.45.10.118 | institute=متوسطة ديب محمد | email=dibmedsup@gmail.com | HDD=W3TMA6TE | طلب تفعيل جديد
+[2026-02-22 04:38:40] [WARNING] IP=129.45.10.118 | email=dibmedsup@gmail.com | HDD=W3TMA6TE | طلب مكرر
+[2026-02-22 04:38:41] [SUCCESS] IP=129.45.10.118 | email=dibmedsup@gmail.com | HDD=W3TMA6TE | تم إرسال الطلب بنجاح
+[2026-02-22 04:38:42] [SUCCESS] IP=129.45.10.118 | email=dibmedsup@gmail.com | تم إرسال نسخة تلقائية للمستخدم
+[2026-02-22 04:40:47] [REQUEST] IP=129.45.10.118 | institute=متوسطة ديب محمد | email=dibmedsup@gmail.com | HDD=W3TMA6TE | طلب تفعيل جديد
+[2026-02-22 04:40:47] [WARNING] IP=129.45.10.118 | email=dibmedsup@gmail.com | HDD=W3TMA6TE | طلب مكرر
+[2026-02-22 04:40:48] [SUCCESS] IP=129.45.10.118 | email=dibmedsup@gmail.com | HDD=W3TMA6TE | تم إرسال الطلب بنجاح
+[2026-02-22 04:40:49] [SUCCESS] IP=129.45.10.118 | email=dibmedsup@gmail.com | تم إرسال نسخة تلقائية للمستخدم

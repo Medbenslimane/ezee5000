@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ezee Browser</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body class="dark-theme">
+  <!-- Title Bar -->
+  <div class="title-bar" id="titleBar">
+    <div class="title-bar-left">
+      <div class="app-logo">
+        <i class="fas fa-globe-americas"></i>
+        <span class="app-name">Ezee</span>
+      </div>
+    </div>
+    <div class="title-bar-center">
+      <!-- Tabs Container -->
+      <div class="tabs-container" id="tabsContainer">
+        <div class="tab active" data-tab-id="1">
+          <i class="fas fa-home tab-icon"></i>
+          <span class="tab-title">الصفحة الرئيسية</span>
+          <button class="tab-close" onclick="closeTab('1')">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+      </div>
+      <button class="new-tab-btn" onclick="createNewTab()">
+        <i class="fas fa-plus"></i>
+      </button>
+    </div>
+    <div class="title-bar-right">
+      <button class="title-btn" onclick="window.ezeeAPI.minimize()">
+        <i class="fas fa-minus"></i>
+      </button>
+      <button class="title-btn" onclick="window.ezeeAPI.maximize()">
+        <i class="far fa-square"></i>
+      </button>
+      <button class="title-btn close-btn" onclick="window.ezeeAPI.close()">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Navigation Bar -->
+  <div class="nav-bar">
+    <div class="nav-buttons">
+      <button class="nav-btn" id="backBtn" onclick="goBack()" title="رجوع">
+        <i class="fas fa-arrow-right"></i>
+      </button>
+      <button class="nav-btn" id="forwardBtn" onclick="goForward()" title="تقدم">
+        <i class="fas fa-arrow-left"></i>
+      </button>
+      <button class="nav-btn" id="refreshBtn" onclick="refreshPage()" title="تحديث">
+        <i class="fas fa-redo"></i>
+      </button>
+      <button class="nav-btn" id="homeBtn" onclick="goHome()" title="الرئيسية">
+        <i class="fas fa-home"></i>
+      </button>
+    </div>
+
+    <div class="url-bar-container">
+      <div class="url-bar">
+        <i class="fas fa-lock url-icon" id="securityIcon"></i>
+        <input type="text" id="urlInput" placeholder="ابحث أو أدخل عنوان URL..." autocomplete="off">
+        <button class="url-action-btn" onclick="toggleBookmark()" title="إضافة للمفضلة">
+          <i class="far fa-star" id="bookmarkIcon"></i>
+        </button>
+      </div>
+    </div>
+
+    <div class="nav-tools">
+      <button class="nav-btn tool-btn" onclick="takeScreenshot()" title="لقطة شاشة">
+        <i class="fas fa-camera"></i>
+      </button>
+      <button class="nav-btn tool-btn" onclick="toggleDownloads()" title="التنزيلات">
+        <i class="fas fa-download"></i>
+        <span class="badge" id="downloadBadge" style="display:none">0</span>
+      </button>
+      <button class="nav-btn tool-btn" onclick="togglePrivacyPanel()" title="الخصوصية">
+        <i class="fas fa-shield-alt"></i>
+        <span class="shield-badge" id="shieldBadge">0</span>
+      </button>
+      <button class="nav-btn tool-btn" onclick="toggleSidebar()" title="الشريط الجانبي">
+        <i class="fas fa-columns"></i>
+      </button>
+      <button class="nav-btn tool-btn" onclick="toggleMenu()" title="القائمة">
+        <i class="fas fa-ellipsis-v"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Main Content Area -->
+  <div class="main-content">
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <h3><i class="fas fa-toolbox"></i> أدوات سريعة</h3>
+        <button class="sidebar-close" onclick="toggleSidebar()">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <div class="sidebar-content">
+        <!-- Quick Tools -->
+        <div class="sidebar-section">
+          <h4>أدوات</h4>
+          <div class="tool-grid">
+            <button class="quick-tool" onclick="openTranslator()">
+              <i class="fas fa-language"></i>
+              <span>ترجمة</span>
+            </button>
+            <button class="quick-tool" onclick="openQRGenerator()">
+              <i class="fas fa-qrcode"></i>
+              <span>QR Code</span>
+            </button>
+            <button class="quick-tool" onclick="openTimer()">
+              <i class="fas fa-stopwatch"></i>
+              <span>مؤقت</span>
+            </button>
+            <button class="quick-tool" onclick="openCalculator()">
+              <i class="fas fa-calculator"></i>
+              <span>آلة حاسبة</span>
+            </button>
+            <button class="quick-tool" onclick="openColorPicker()">
+              <i class="fas fa-palette"></i>
+              <span>الألوان</span>
+            </button>
+            <button class="quick-tool" onclick="openNotes()">
+              <i class="fas fa-sticky-note"></i>
+              <span>ملاحظات</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Notes Panel -->
+        <div class="sidebar-section" id="notesSection" style="display:none">
+          <h4><i class="fas fa-sticky-note"></i> ملاحظاتي</h4>
+          <textarea id="notesArea" placeholder="اكتب ملاحظاتك هنا..."></textarea>
+          <div class="notes-actions">
+            <button onclick="saveNotes()"><i class="fas fa-save"></i> حفظ</button>
+            <button onclick="clearNotes()"><i class="fas fa-trash"></i> مسح</button>
+          </div>
+        </div>
+
+        <!-- Timer -->
+        <div class="sidebar-section" id="timerSection" style="display:none">
+          <h4><i class="fas fa-stopwatch"></i> المؤقت</h4>
+          <div class="timer-display" id="timerDisplay">00:00:00</div>
+          <div class="timer-controls">
+            <button onclick="startTimer()"><i class="fas fa-play"></i></button>
+            <button onclick="pauseTimer()"><i class="fas fa-pause"></i></button>
+            <button onclick="resetTimer()"><i class="fas fa-undo"></i></button>
+          </div>
+        </div>
+
+        <!-- Calculator -->
+        <div class="sidebar-section" id="calculatorSection" style="display:none">
+          <h4><i class="fas fa-calculator"></i> آلة حاسبة</h4>
+          <input type="text" id="calcDisplay" class="calc-display" readonly>
+          <div class="calc-grid">
+            <button onclick="calcInput('7')">7</button>
+            <button onclick="calcInput('8')">8</button>
+            <button onclick="calcInput('9')">9</button>
+            <button onclick="calcInput('/')" class="calc-op">/</button>
+            <button onclick="calcInput('4')">4</button>
+            <button onclick="calcInput('5')">5</button>
+            <button onclick="calcInput('6')">6</button>
+            <button onclick="calcInput('*')" class="calc-op">×</button>
+            <button onclick="calcInput('1')">1</button>
+            <button onclick="calcInput('2')">2</button>
+            <button onclick="calcInput('3')">3</button>
+            <button onclick="calcInput('-')" class="calc-op">-</button>
+            <button onclick="calcInput('0')">0</button>
+            <button onclick="calcInput('.')">.</button>
+            <button onclick="calcResult()" class="calc-op">=</button>
+            <button onclick="calcInput('+')" class="calc-op">+</button>
+          </div>
+          <button class="calc-clear" onclick="calcClear()">C</button>
+        </div>
+
+        <!-- Bookmarks -->
+        <div class="sidebar-section">
+          <h4><i class="fas fa-bookmark"></i> المفضلة</h4>
+          <div class="bookmarks-list" id="bookmarksList">
+            <p class="empty-state">لا توجد مفضلات بعد</p>
+          </div>
+        </div>
+
+        <!-- History -->
+        <div class="sidebar-section">
+          <h4><i class="fas fa-history"></i> السجل</h4>
+          <div class="history-list" id="historyList">
+            <p class="empty-state">لا يوجد سجل بعد</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Browser Content -->
+    <div class="browser-content" id="browserContent">
+      <!-- New Tab Page -->
+      <div class="new-tab-page" id="newTabPage">
+        <div class="ntp-header">
+          <h1 class="ntp-logo"><i class="fas fa-globe-americas"></i> Ezee Browser</h1>
+          <p class="ntp-subtitle">تصفح سريع، آمن، وخاص</p>
+        </div>
+
+        <div class="ntp-search">
+          <div class="ntp-search-bar">
+            <i class="fas fa-search"></i>
+            <input type="text" id="ntpSearchInput" placeholder="ابحث في الإنترنت...">
+          </div>
+        </div>
+
+        <div class="ntp-shortcuts">
+          <a class="shortcut" onclick="navigateTo('https://www.google.com')">
+            <div class="shortcut-icon" style="background: #4285f4"><i class="fab fa-google"></i></div>
+            <span>Google</span>
+          </a>
+          <a class="shortcut" onclick="navigateTo('https://www.youtube.com')">
+            <div class="shortcut-icon" style="background: #ff0000"><i class="fab fa-youtube"></i></div>
+            <span>YouTube</span>
+          </a>
+          <a class="shortcut" onclick="navigateTo('https://www.github.com')">
+            <div class="shortcut-icon" style="background: #333"><i class="fab fa-github"></i></div>
+            <span>GitHub</span>
+          </a>
+          <a class="shortcut" onclick="navigateTo('https://www.twitter.com')">
+            <div class="shortcut-icon" style="background: #1da1f2"><i class="fab fa-twitter"></i></div>
+            <span>Twitter</span>
+          </a>
+          <a class="shortcut" onclick="navigateTo('https://www.reddit.com')">
+            <div class="shortcut-icon" style="background: #ff4500"><i class="fab fa-reddit"></i></div>
+            <span>Reddit</span>
+          </a>
+          <a class="shortcut" onclick="navigateTo('https://www.wikipedia.org')">
+            <div class="shortcut-icon" style="background: #636363"><i class="fab fa-wikipedia-w"></i></div>
+            <span>Wikipedia</span>
+          </a>
+          <a class="shortcut" onclick="navigateTo('https://www.stackoverflow.com')">
+            <div class="shortcut-icon" style="background: #f48024"><i class="fab fa-stack-overflow"></i></div>
+            <span>Stack Overflow</span>
+          </a>
+          <a class="shortcut" onclick="navigateTo('https://www.linkedin.com')">
+            <div class="shortcut-icon" style="background: #0077b5"><i class="fab fa-linkedin"></i></div>
+            <span>LinkedIn</span>
+          </a>
+        </div>
+
+        <div class="ntp-stats">
+          <div class="stat-card">
+            <i class="fas fa-shield-alt"></i>
+            <div class="stat-info">
+              <span class="stat-number" id="totalBlocked">0</span>
+              <span class="stat-label">إعلان محظور</span>
+            </div>
+          </div>
+          <div class="stat-card">
+            <i class="fas fa-user-secret"></i>
+            <div class="stat-info">
+              <span class="stat-number" id="totalTrackers">0</span>
+              <span class="stat-label">متتبع محظور</span>
+            </div>
+          </div>
+          <div class="stat-card">
+            <i class="fas fa-clock"></i>
+            <div class="stat-info">
+              <span class="stat-number" id="timeSaved">0s</span>
+              <span class="stat-label">وقت موفر</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Webview Container -->
+      <div class="webview-container" id="webviewContainer" style="display:none">
+        <!-- Webviews will be dynamically inserted here -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Privacy Panel -->
+  <div class="panel privacy-panel" id="privacyPanel">
+    <div class="panel-header">
+      <h3><i class="fas fa-shield-alt"></i> لوحة الخصوصية</h3>
+      <button onclick="togglePrivacyPanel()"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="panel-content">
+      <div class="privacy-stat">
+        <div class="privacy-stat-icon"><i class="fas fa-ban"></i></div>
+        <div class="privacy-stat-info">
+          <span class="privacy-stat-number" id="panelAdsBlocked">0</span>
+          <span>إعلان محظور</span>
+        </div>
+      </div>
+      <div class="privacy-stat">
+        <div class="privacy-stat-icon"><i class="fas fa-user-secret"></i></div>
+        <div class="privacy-stat-info">
+          <span class="privacy-stat-number" id="panelTrackersBlocked">0</span>
+          <span>متتبع محظور</span>
+        </div>
+      </div>
+
+      <div class="privacy-toggles">
+        <div class="toggle-item">
+          <span><i class="fas fa-ad"></i> حظر الإعلانات</span>
+          <label class="switch">
+            <input type="checkbox" id="adBlockToggle" checked onchange="toggleAdBlock()">
+            <span class="slider"></span>
+          </label>
+        </div>
+        <div class="toggle-item">
+          <span><i class="fas fa-eye-slash"></i> حظر المتتبعات</span>
+          <label class="switch">
+            <input type="checkbox" id="trackerBlockToggle" checked onchange="toggleTrackerBlock()">
+            <span class="slider"></span>
+          </label>
+        </div>
+        <div class="toggle-item">
+          <span><i class="fas fa-cookie-bite"></i> حذف الكوكيز</span>
+          <button class="action-btn" onclick="clearCookies()">
+            <i class="fas fa-trash"></i> حذف
+          </button>
+        </div>
+        <div class="toggle-item">
+          <span><i class="fas fa-broom"></i> مسح بيانات التصفح</span>
+          <button class="action-btn" onclick="clearBrowsingData()">
+            <i class="fas fa-trash"></i> مسح
+          </button>
+        </div>
+      </div>
+
+      <div class="theme-section">
+        <h4><i class="fas fa-palette"></i> المظهر</h4>
+        <div class="theme-options">
+          <button class="theme-btn active" id="darkThemeBtn" onclick="setTheme('dark')">
+            <i class="fas fa-moon"></i> داكن
+          </button>
+          <button class="theme-btn" id="lightThemeBtn" onclick="setTheme('light')">
+            <i class="fas fa-sun"></i> فاتح
+          </button>
+          <button class="theme-btn" id="autoThemeBtn" onclick="setTheme('system')">
+            <i class="fas fa-adjust"></i> تلقائي
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Downloads Panel -->
+  <div class="panel downloads-panel" id="downloadsPanel">
+    <div class="panel-header">
+      <h3><i class="fas fa-download"></i> التنزيلات</h3>
+      <button onclick="toggleDownloads()"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="panel-content">
+      <div class="downloads-list" id="downloadsList">
+        <p class="empty-state"><i class="fas fa-inbox"></i> لا توجد تنزيلات</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Menu Panel -->
+  <div class="panel menu-panel" id="menuPanel">
+    <div class="menu-grid">
+      <button class="menu-item" onclick="createNewTab()">
+        <i class="fas fa-plus"></i>
+        <span>تبويب جديد</span>
+      </button>
+      <button class="menu-item" onclick="openIncognito()">
+        <i class="fas fa-user-secret"></i>
+        <span>تصفح خاص</span>
+      </button>
+      <button class="menu-item" onclick="toggleFullscreen()">
+        <i class="fas fa-expand"></i>
+        <span>ملء الشاشة</span>
+      </button>
+      <button class="menu-item" onclick="printPage()">
+        <i class="fas fa-print"></i>
+        <span>طباعة</span>
+      </button>
+      <button class="menu-item" onclick="zoomIn()">
+        <i class="fas fa-search-plus"></i>
+        <span>تكبير</span>
+      </button>
+      <button class="menu-item" onclick="zoomOut()">
+        <i class="fas fa-search-minus"></i>
+        <span>تصغير</span>
+      </button>
+      <button class="menu-item" onclick="viewSource()">
+        <i class="fas fa-code"></i>
+        <span>مصدر الصفحة</span>
+      </button>
+      <button class="menu-item" onclick="openDevTools()">
+        <i class="fas fa-tools"></i>
+        <span>أدوات المطور</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div class="toast" id="toast">
+    <i class="fas fa-check-circle"></i>
+    <span id="toastMessage"></span>
+  </div>
+
+  <script src="renderer.js"></script>
+</body>
+</html>
